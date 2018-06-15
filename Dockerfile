@@ -7,7 +7,10 @@ WORKDIR $HOME
 
 # install nk_sent2vec
 COPY . $HOME/
-RUN python3 setup.py install 
+# RUN python3 setup.py install 
+RUN pip3 install .
 
 # check that it runs by triggering tests
-CMD nosetests
+CMD python3 nk_sent2vec_wrapper/wrapper.py
+# CMD nosetests 
+
