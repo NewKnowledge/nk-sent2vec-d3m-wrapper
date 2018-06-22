@@ -56,12 +56,18 @@ class nk_sent2vec(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
         # Of course Python packages can also have their own dependencies, but sometimes it is necessary to
         # install a Python package first to be even able to run setup.py of another package. Or you have
         # a dependency which is not on PyPi.
-        'installation': [{
-            'type': metadata_base.PrimitiveInstallationType.PIP,  # TODO value for egg= below?
-            'package_uri': 'git+https://github.com/NewKnowledge/nk-sent2vec-d3m-wrapper.git@{git_commit}#egg=nk_sent2vec'.format(
-                git_commit=utils.current_git_commit(os.path.dirname(__file__)),
-            ),
-        }],
+        'installation': [
+            {
+                'type': metadata_base.PrimitiveInstallationType.PIP,  # TODO value for egg= below?
+                'package_uri': 'git+https://github.com/NewKnowledge/nk-sent2vec.git@8878a622df9f01c15d3cdf1f9be23e909d9438ac#egg=nk_sent2vec'
+            },
+            {
+                'type': metadata_base.PrimitiveInstallationType.PIP,  # TODO value for egg= below?
+                'package_uri': 'git+https://github.com/NewKnowledge/nk-sent2vec-d3m-wrapper.git@{git_commit}#egg=nk_sent2vec_wrapper'.format(
+                    git_commit=utils.current_git_commit(os.path.dirname(__file__)),
+                ),
+            }
+        ],
         # The same path the primitive is registered with entry points in setup.py.
         'python_path': 'd3m.primitives.distil.nk_sent2vec',
         # Choose these from a controlled vocabulary in the schema. If anything is missing which would
@@ -108,10 +114,4 @@ class nk_sent2vec(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
         """
 
         # frame = inputs
-
-        try:
-            # for each column of text, return nk_sent2vec.produce(text_col)
-            return pd.DataFrame()
-
-        except:
-            return "Failed with input data frame:" + str(inputs)
+        pass
