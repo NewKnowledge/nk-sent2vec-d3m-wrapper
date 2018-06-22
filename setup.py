@@ -11,6 +11,7 @@ setup(
         'pandas>=0.22.0',
         'numpy>=1.14.1',
         'nose>=1.3.7',
+        'nk_sent2vec>=1.0.0'
     ],
     dependency_links=[
         "git+https://github.com/NewKnowledge/nk-sent2vec#egg=nk_sent2vec-1.0.0"
