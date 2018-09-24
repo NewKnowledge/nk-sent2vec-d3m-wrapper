@@ -9,7 +9,7 @@ from json import JSONDecoder
 from typing import List
 import sys
 
-import nk_sent2vec *
+from nk_sent2vec import *
 
 from d3m.primitive_interfaces.base import PrimitiveBase, CallResult
 
