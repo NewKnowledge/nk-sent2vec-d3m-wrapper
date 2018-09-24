@@ -121,8 +121,10 @@ class nk_sent2vec(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
             vectorizer = Sent2Vec(path={})
             
             EmbedSentences = vectorizer.embed_sentences(sentences=[list])
+            index = ['Sentence'+str(i) for i in range(1, len(values)+1)]
+            df_output = pd.DataFrame(EmbedSentences, index=index)
             
-            return EmbedSentences
+            return df_output
         except:
             # Should probably do some more sophisticated error logging here
             return "Failed document embedding"
