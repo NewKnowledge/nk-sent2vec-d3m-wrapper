@@ -9,6 +9,7 @@ from json import JSONDecoder
 from typing import List
 import sys
 
+import nk_sent2vec *
 
 from d3m.primitive_interfaces.base import PrimitiveBase, CallResult
 
@@ -112,6 +113,16 @@ class nk_sent2vec(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
 
         """ Accept a pandas data frame
         """
-
-        # frame = inputs
-        pass
+                
+        frame = inputs
+        
+        try:
+            vectorizer = Sent2Vec(path={})
+            
+            EmbedSentences = vectorizer.embed_sentences(frame)
+            
+            return list(EmbedSentences)
+        except:
+            # Should probably do some more sophisticated error logging here
+            return "Failed document embedding"
+    
