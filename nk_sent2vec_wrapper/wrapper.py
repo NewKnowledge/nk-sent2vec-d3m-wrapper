@@ -19,7 +19,8 @@ from d3m.metadata import hyperparams, base as metadata_base, params
 __author__ = 'Distil'
 __version__ = '1.0.0'
 
-Inputs = container.pandas.DataFrame
+# Inputs = container.pandas.DataFrame
+Inputs = container.List
 Outputs = container.pandas.DataFrame
 
 
@@ -103,7 +104,7 @@ class nk_sent2vec(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
 
         Parameters
         ----------
-        inputs : Input pandas frame
+        inputs : Input list
 
         Returns
         -------
@@ -114,12 +115,12 @@ class nk_sent2vec(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
         """ Accept a pandas data frame
         """
                 
-        frame = inputs
+        list = inputs
         
         try:
             vectorizer = Sent2Vec(path={})
             
-            EmbedSentences = vectorizer.embed_sentences(frame)
+            EmbedSentences = vectorizer.embed_sentences(sentences=[list])
             
             return EmbedSentences
         except:
