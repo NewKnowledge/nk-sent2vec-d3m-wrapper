@@ -121,7 +121,7 @@ class nk_sent2vec(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
             
             EmbedSentences = vectorizer.embed_sentences(frame)
             
-            return list(EmbedSentences)
+            return EmbedSentences
         except:
             # Should probably do some more sophisticated error logging here
             return "Failed document embedding"
