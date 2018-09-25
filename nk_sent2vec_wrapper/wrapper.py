@@ -115,7 +115,7 @@ class nk_s2v(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
                 
         docs = inputs # the inputs is a list
         
-        print("Checkpoint for produce function")
+        # print("Checkpoint for produce function")
 
         try:
            # input_path = input("Enter path: ")
@@ -127,7 +127,7 @@ class nk_s2v(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
             # print(EmbedSentences)
             
             # return df_output
-            return EmbedSentences
+            print(EmbedSentences)
         except:
             # Should probably do some more sophisticated error logging here
             return "Failed document embedding"
