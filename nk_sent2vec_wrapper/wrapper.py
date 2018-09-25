@@ -115,7 +115,7 @@ class nk_s2v(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
         """ Accept a pandas data frame
         """
                 
-       frame = inputs
+        frame = inputs
         
         print("Checkpoint for produce function")
 
