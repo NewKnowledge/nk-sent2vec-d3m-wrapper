@@ -9,7 +9,7 @@ from json import JSONDecoder
 from typing import List
 import sys
 
-from nk_sent2vec import *
+from nk_sent2vec import Sent2Vec
 
 from d3m.primitive_interfaces.base import PrimitiveBase, CallResult
 
@@ -117,9 +117,11 @@ class nk_sent2vec(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
                 
         list = inputs
         
+        print("Checkpoint for produce function")
+
         try:
-            input_path = input("Enter path: ")
-            vectorizer = Sent2Vec(path=input_path)
+           # input_path = input("Enter path: ")
+            vectorizer = Sent2Vec(path='/home/nk-sent2vec/models/torontobooks_unigrams.bin')
             
             EmbedSentences = vectorizer.embed_sentences(sentences=[list])
             index = ['Sentence'+str(i) for i in range(1, len(values)+1)]
