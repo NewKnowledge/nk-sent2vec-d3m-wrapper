@@ -118,7 +118,8 @@ class nk_sent2vec(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
         list = inputs
         
         try:
-            vectorizer = Sent2Vec(path={})
+            input_path = input("Enter path: ")
+            vectorizer = Sent2Vec(path=input_path)
             
             EmbedSentences = vectorizer.embed_sentences(sentences=[list])
             index = ['Sentence'+str(i) for i in range(1, len(values)+1)]
