@@ -15,8 +15,8 @@ setup(
         'nk_sent2vec>=1.0.0'
     ],
     dependency_links=[
-        "git+https://github.com/NewKnowledge/nk-sent2vec#egg=nk_sent2vec-1.0.0"
-    ],
+        "git+https://github.com/NewKnowledge/nk-sent2vec@nd/fix_file_path#egg=nk_sent2vec-1.0.0"
+    ], # pointing to the latest commit on nd/fix_file_path branch
     entry_points={
         'd3m.primitives': [
             'distil.nk_sent2vec = nk_sent2vec_wrapper:nk_sent2vec'
