@@ -121,7 +121,7 @@ class nk_s2v(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
 
         try:
            # input_path = input("Enter path: ")
-            vectorizer = Sent2Vec(path='/home/nk-sent2vec/models/torontobooks_unigrams.bin')
+            vectorizer = Sent2Vec(path='/home/nk-sent2vec-d3m-wrapper/models/torontobooks_unigrams.bin')
             
             EmbedSentences = vectorizer.embed_sentences(sentences=[list])
             index = ['Sentence'+str(i) for i in range(1, len(values)+1)]
