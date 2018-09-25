@@ -109,13 +109,11 @@ class nk_s2v(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
         Returns
         -------
         Outputs
-            The outputs is two lists of lists, each has length equal to number of columns in input pandas frame.
+            The output is a numpy array
         """
 
-        """ Accept a pandas data frame
-        """
                 
-        frame = inputs
+        docs = inputs # the inputs is a list
         
         print("Checkpoint for produce function")
 
@@ -123,10 +121,10 @@ class nk_s2v(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
            # input_path = input("Enter path: ")
             vectorizer = Sent2Vec(path='/home/nk-sent2vec-d3m-wrapper/models/torontobooks_unigrams.bin')
             
-            EmbedSentences = vectorizer.embed_sentences(sentences=frame)
+            EmbedSentences = vectorizer.embed_sentences(sentences=docs)
             # index = ['Sentence'+str(i) for i in range(1, len(values)+1)]
             # df_output = pd.DataFrame(EmbedSentences, index=index)
-            print(EmbedSentences)
+            # print(EmbedSentences)
             
             # return df_output
             return EmbedSentences
@@ -135,8 +133,9 @@ class nk_s2v(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
             return "Failed document embedding"
     
 if __name__ == '__main__':
-    client = nk_sent2vec(hyperparams={})
+    client = nk_s2v(hyperparams={})
     # make sure to read dataframe as string!
-    frame = pd.read_csv("https://s3.amazonaws.com/d3m-data/merged_o_data/o_4550_merged.csv",dtype='str')
-    result = client.produce(inputs = frame)
+    # frame = pd.read_csv("https://s3.amazonaws.com/d3m-data/merged_o_data/o_4550_merged.csv",dtype='str')
+    docs = ['this is a test', 'this is a trap']
+    result = client.produce(inputs = docs)
     print(result)
