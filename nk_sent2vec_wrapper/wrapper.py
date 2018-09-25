@@ -124,10 +124,12 @@ class nk_s2v(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
             vectorizer = Sent2Vec(path='/home/nk-sent2vec-d3m-wrapper/models/torontobooks_unigrams.bin')
             
             EmbedSentences = vectorizer.embed_sentences(sentences=frame)
-            index = ['Sentence'+str(i) for i in range(1, len(values)+1)]
-            df_output = pd.DataFrame(EmbedSentences, index=index)
+            # index = ['Sentence'+str(i) for i in range(1, len(values)+1)]
+            # df_output = pd.DataFrame(EmbedSentences, index=index)
+            print(EmbedSentences)
             
-            return df_output
+            # return df_output
+            return EmbedSentences
         except:
             # Should probably do some more sophisticated error logging here
             return "Failed document embedding"
