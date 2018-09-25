@@ -39,7 +39,7 @@ class Hyperparams(hyperparams.Hyperparams):
     )
 
 
-class nk_sent2vec(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
+class nk_s2v(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
     metadata = metadata_base.PrimitiveMetadata({
         # Simply an UUID generated once and fixed forever. Generated using "uuid.uuid4()".
         'id': "cf450079-9333-4a3f-aed4-b77a4e8c7be7",
