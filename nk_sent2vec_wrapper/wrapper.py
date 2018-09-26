@@ -121,7 +121,7 @@ class nk_s2v(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
             index = ['Sentence'+str(i) for i in range(1, len(EmbedSentences)+1)]
             df_output = pd.DataFrame(EmbedSentences, index=index)
             
-            # return df_output
+            return df_output
         except:
             # Should probably do some more sophisticated error logging here
             return "Failed document embedding"
