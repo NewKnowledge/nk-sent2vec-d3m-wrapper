@@ -1,4 +1,4 @@
-from setuptools import setup
+from distutils.core import setup
 
 setup(
     name='nk_sent2vec_wrapper',
@@ -15,7 +15,7 @@ setup(
     ],
     dependency_links=[
         "git+https://github.com/NewKnowledge/nk-sent2vec#egg=nk_sent2vec-1.0.0"
-    ],
+    ], 
     entry_points={
         'd3m.primitives': [
             'distil.nk_sent2vec = nk_sent2vec_wrapper:nk_sent2vec'
