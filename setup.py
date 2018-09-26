@@ -1,4 +1,3 @@
-# from setuptools import setup
 from distutils.core import setup
 
 setup(
@@ -15,8 +14,8 @@ setup(
         'nk_sent2vec>=1.0.0'
     ],
     dependency_links=[
-        "git+https://github.com/NewKnowledge/nk-sent2vec@32ec52c9545076a72b1548dc484353079d18cec1#egg=nk_sent2vec-1.0.0"
-    ], # pointing to the latest commit on nd/fix_file_path branch
+        "git+https://github.com/NewKnowledge/nk-sent2vec#egg=nk_sent2vec-1.0.0"
+    ], 
     entry_points={
         'd3m.primitives': [
             'distil.nk_sent2vec = nk_sent2vec_wrapper:nk_sent2vec'
