@@ -63,7 +63,14 @@ class nk_s2v(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
                 'package_uri': 'git+https://github.com/NewKnowledge/nk-sent2vec-d3m-wrapper.git@{git_commit}#egg=nk_sent2vec_wrapper'.format(
                     git_commit=utils.current_git_commit(os.path.dirname(__file__)),
                 ),
-            }
+            },
+            
+            {
+                "type": "FILE",
+                "key": "nk_sent2vec_model",
+                "file_uri": "http://public.datadrivendiscovery.org/twitter_bigrams.bin",
+                "file_digest":"f9eabcd5df75c62da667e41ce70ece60e9ff402cd898c5d560d68e28710bff1d"
+        },
         ],
         # The same path the primitive is registered with entry points in setup.py.
         'python_path': 'd3m.primitives.distil.nk_sent2vec',
@@ -75,11 +82,12 @@ class nk_s2v(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
         'primitive_family': metadata_base.PrimitiveFamily.FEATURE_EXTRACTION,
     })
 
-    def __init__(self, *, hyperparams: Hyperparams, random_seed: int = 0)-> None:
-        super().__init__(hyperparams=hyperparams, random_seed=random_seed)
+    def __init__(self, *, hyperparams: Hyperparams, random_seed: int = 0, volumes: typing.Dict[str,str]=None)-> None:
+        super().__init__(hyperparams=hyperparams, random_seed=random_seed, volumes=volumes)
 
         self._decoder = JSONDecoder()
         self._params = {}
+        self.volumes = volumes
 
     def fit(self) -> None:
         pass
@@ -110,7 +118,7 @@ class nk_s2v(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
         frame = inputs
       
         try:
-            vectorizer = Sent2Vec(path='/home/nk-sent2vec-d3m-wrapper/models/torontobooks_unigrams.bin')
+            vectorizer = Sent2Vec(path=self.volumes["nk_sent2vec_model"])
             frame = frame.ix[:,0].tolist()
             EmbedSentences = vectorizer.embed_sentences(sentences=frame)
             # print(EmbedSentences)
