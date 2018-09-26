@@ -14,7 +14,7 @@ setup(
         'nk_sent2vec>=1.0.0'
     ],
     dependency_links=[
-        "git+https://github.com/NewKnowledge/nk-sent2vec#egg=nk_sent2vec-1.0.0"
+        "git+https://github.com/NewKnowledge/nk-sent2vec@9f82d363c8c10cf1dae9c3e9e443e04f20ad3664#egg=nk_sent2vec-1.0.0"
     ], 
     entry_points={
         'd3m.primitives': [
