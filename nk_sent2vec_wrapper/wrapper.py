@@ -78,8 +78,10 @@ class nk_s2v(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
         'algorithm_types': [
             metadata_base.PrimitiveAlgorithmType.RECURRENT_NEURAL_NETWORK, 
         ],
-        'primitive_family': metadata_base.PrimitiveFamily.FEATURE_EXTRACTION,
-                    metadata_base.PrimitiveFamily.DATA_TRANSFORMATION,
+        'primitive_family': [
+            metadata_base.PrimitiveFamily.FEATURE_EXTRACTION,
+            metadata_base.PrimitiveFamily.DATA_TRANSFORMATION,
+        ],
     })
 
     def __init__(self, *, hyperparams: Hyperparams, random_seed: int = 0)-> None:
