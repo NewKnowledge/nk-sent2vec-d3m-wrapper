@@ -69,7 +69,7 @@ class nk_s2v(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
                 "type": "FILE",
                 "key": "nk_sent2vec_model",
                 "file_uri": "http://public.datadrivendiscovery.org/twitter_bigrams.bin",
-                "file_digest":"f9eabcd5df75c62da667e41ce70ece60e9ff402cd898c5d560d68e28710bff1d"
+                "file_digest":"9e8ccfea2aaa4435ca61b05b11b60e1a096648d56fff76df984709339f423dd6"
         },
         ],
         # The same path the primitive is registered with entry points in setup.py.
