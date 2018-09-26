@@ -18,7 +18,7 @@ setup(
     ], 
     entry_points={
         'd3m.primitives': [
-            'distil.nk_sent2vec = nk_sent2vec_wrapper:nk_sent2vec'
+            'distil.nk_sent2vec = nk_sent2vec_wrapper:nk_s2v'
         ],
     },
 )
