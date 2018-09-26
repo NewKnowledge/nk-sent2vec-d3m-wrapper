@@ -60,7 +60,8 @@ class nk_s2v(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
         'installation': [
             {
                 'type': metadata_base.PrimitiveInstallationType.PIP,  # TODO value for egg= below?
-                'package_uri': 'git+https://github.com/NewKnowledge/nk-sent2vec.git@8878a622df9f01c15d3cdf1f9be23e909d9438ac#egg=nk_sent2vec'
+                'package_uri': 'git+https://github.com/NewKnowledge/nk-sent2vec.git@{git_commit}#egg=nk_sent2vec'.format(
+                    git_commit=utils.current_git_commit(os.path.dirname(__file__)),
             },
             {
                 'type': metadata_base.PrimitiveInstallationType.PIP,  # TODO value for egg= below?
