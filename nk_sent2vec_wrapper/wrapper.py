@@ -19,8 +19,7 @@ from d3m.metadata import hyperparams, base as metadata_base, params
 __author__ = 'Distil'
 __version__ = '1.0.0'
 
-# Inputs = container.pandas.DataFrame
-Inputs = container.List
+Inputs = container.pandas.DataFrame
 Outputs = container.pandas.DataFrame
 
 
@@ -104,30 +103,25 @@ class nk_s2v(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
 
         Parameters
         ----------
-        inputs : Input list
+        inputs : Input pandas dataframe
 
         Returns
         -------
         Outputs
-            The output is a numpy array
+            The output is a pandas dataframe
         """
-
-                
-        docs = inputs # the inputs is a list
         
-        # print("Checkpoint for produce function")
-
+        frame = inputs
+      
         try:
-           # input_path = input("Enter path: ")
             vectorizer = Sent2Vec(path='/home/nk-sent2vec-d3m-wrapper/models/torontobooks_unigrams.bin')
-            
-            EmbedSentences = vectorizer.embed_sentences(sentences=docs)
-            # index = ['Sentence'+str(i) for i in range(1, len(values)+1)]
-            # df_output = pd.DataFrame(EmbedSentences, index=index)
+            frame = frame.ix[:,0].tolist()
+            EmbedSentences = vectorizer.embed_sentences(sentences=frame)
             # print(EmbedSentences)
+            index = ['Sentence'+str(i) for i in range(1, len(EmbedSentences)+1)]
+            df_output = pd.DataFrame(EmbedSentences, index=index)
             
             # return df_output
-            print(EmbedSentences)
         except:
             # Should probably do some more sophisticated error logging here
             return "Failed document embedding"
@@ -137,5 +131,6 @@ if __name__ == '__main__':
     # make sure to read dataframe as string!
     # frame = pd.read_csv("https://s3.amazonaws.com/d3m-data/merged_o_data/o_4550_merged.csv",dtype='str')
     docs = ['this is a test', 'this is a trap']
-    result = client.produce(inputs = docs)
+    frame = pd.DataFrame(docs, columns=['sentences'])
+    result = client.produce(inputs = frame)
     print(result)
