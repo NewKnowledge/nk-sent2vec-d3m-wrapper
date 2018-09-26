@@ -75,9 +75,10 @@ class nk_s2v(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
         # Choose these from a controlled vocabulary in the schema. If anything is missing which would
         # best describe the primitive, make a merge request.
         'algorithm_types': [
-            metadata_base.PrimitiveAlgorithmType.CONVOLUTIONAL_NEURAL_NETWORK,  # TODO
+            metadata_base.PrimitiveAlgorithmType.RECURRENT_NEURAL_NETWORK, 
         ],
-        'primitive_family': metadata_base.PrimitiveFamily.DATA_CLEANING,  # TODO
+        'primitive_family': metadata_base.PrimitiveFamily.FEATURE_EXTRACTION,
+                    metadata_base.PrimitiveFamily.DATA_TRANSFORMATION,
     })
 
     def __init__(self, *, hyperparams: Hyperparams, random_seed: int = 0)-> None:
