@@ -3,10 +3,12 @@
 D3M wrapper for nk-sent2vec
 
 ```
-from nk_sent2vec_wrapper import nk_s2v 
+from nk_sent2vec_wrapper import nk_s2v
+import pandas as pd
 
 test = ['this is a test', 'this is a trap']
+frame = pd.DataFrame(docs, columns=['sentences'])
 
-nk_s2v(hyperparams={}).produce(inputs=test)
+nk_s2v(hyperparams={}).produce(inputs=frame)
 
 ```
