@@ -131,7 +131,9 @@ class nk_s2v(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
             return "Failed document embedding"
     
 if __name__ == '__main__':
-    client = nk_s2v(hyperparams={})
+    volumes = {} # d3m large primitive architecture dictionary of large files
+    volumes["nk_sent2vec_model"]='/home/twitter_bigrams.bin'
+    client = nk_s2v(hyperparams={}, volumes=volumes)
     # make sure to read dataframe as string!
     # frame = pd.read_csv("https://s3.amazonaws.com/d3m-data/merged_o_data/o_4550_merged.csv",dtype='str')
     docs = ['this is a test', 'this is a trap']
