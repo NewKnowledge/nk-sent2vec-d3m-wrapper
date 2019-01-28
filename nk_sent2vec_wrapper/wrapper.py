@@ -18,6 +18,7 @@ from d3m.metadata import hyperparams, base as metadata_base, params
 
 __author__ = 'Distil'
 __version__ = '1.0.0'
+__contact__ = 'mailto:numa@newknowledge.io'
 
 Inputs = container.pandas.DataFrame
 Outputs = container.pandas.DataFrame
@@ -48,6 +49,7 @@ class nk_s2v(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
         'keywords': ['Sent2Vec', 'Embedding', 'NLP', 'Natural Language Processing'],
         'source': {
             'name': __author__,
+            'contact': __contact__,
             'uris': [
                 # Unstructured URIs.
                 "https://github.com/NewKnowledge/nk-sent2vec-d3m-wrapper",
@@ -73,7 +75,7 @@ class nk_s2v(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
         },
         ],
         # The same path the primitive is registered with entry points in setup.py.
-        'python_path': 'd3m.primitives.distil.nk_sent2vec',
+        'python_path': 'd3m.primitives.feature_extraction.nk_sent2vec.Nk_s2v',
         # Choose these from a controlled vocabulary in the schema. If anything is missing which would
         # best describe the primitive, make a merge request.
         'algorithm_types': [
