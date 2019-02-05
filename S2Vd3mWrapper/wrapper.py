@@ -19,7 +19,7 @@ from d3m.metadata import hyperparams, base as metadata_base, params
 
 __author__ = 'Distil'
 __version__ = '1.1.0'
-__contact__ = 'mailto:numa@newknowledge.io'
+__contact__ = 'mailto:nklabs@newknowledge.com'
 
 Inputs = container.pandas.DataFrame
 Outputs = container.pandas.DataFrame
@@ -52,7 +52,7 @@ class d3m_s2v(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
         # Simply an UUID generated once and fixed forever. Generated using "uuid.uuid4()".
         'id': "cf450079-9333-4a3f-aed4-b77a4e8c7be7",
         'version': __version__,
-        'name': "d3m_sent2vec",
+        'name': "nk_sent2vec",
         # Keywords do not have a controlled vocabulary. Authors can put here whatever they find suitable.
         'keywords': ['Sent2Vec', 'Embedding', 'NLP', 'Natural Language Processing'],
         'source': {
@@ -69,10 +69,6 @@ class d3m_s2v(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
         # a dependency which is not on PyPi.
         'installation': [
             {
-                "type": "PIP",
-                "package_uri": "git+https://github.com/NewKnowledge/d3m_sent2vec@6b814caa4f6fe7ce460b18bcf703835f1aa14e99##egg=d3m_sent2vec-1.2.0"
-            },
-            {
                 'type': metadata_base.PrimitiveInstallationType.PIP,  
                 'package_uri': 'git+https://github.com/NewKnowledge/sent2vec-d3m-wrapper.git@{git_commit}#egg=S2Vd3mWrapper'.format(
                     git_commit=utils.current_git_commit(os.path.dirname(__file__)),
@@ -87,7 +83,7 @@ class d3m_s2v(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
         },
         ],
         # The same path the primitive is registered with entry points in setup.py.
-        'python_path': 'd3m.primitives.feature_extraction.d3m_sent2vec.D3m_s2v',
+        'python_path': 'd3m.primitives.feature_extraction.nk_sent2vec.D3m_s2v',
         # Choose these from a controlled vocabulary in the schema. If anything is missing which would
         # best describe the primitive, make a merge request.
         'algorithm_types': [
@@ -136,7 +132,7 @@ if __name__ == '__main__':
     volumes["d3m_sent2vec_model"]='/home/twitter_bigrams.bin'
     docs = ['this is a test', 'this is a trap']
     frame = pd.DataFrame(docs, columns=['sentences'])
-    df = d3m_DataFrame(inputs = frame)  
+    df = d3m_DataFrame(frame)  
     client = d3m_s2v(hyperparams={}, volumes=volumes)
     result = client.produce(inputs = df)
     print(result)
