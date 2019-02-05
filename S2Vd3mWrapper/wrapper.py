@@ -37,7 +37,7 @@ class Hyperparams(hyperparams.Hyperparams):
 
 class d3m_s2v(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
-        Produce primitive's best guess for the structural type of each input column.
+        Produce numerical representations (features) for short texts or sentences.
 
         Parameters
         ----------
@@ -100,7 +100,7 @@ class d3m_s2v(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]:
         """
-        Produce primitive's best guess for the structural type of each input column.
+        Produce numerical representations (features) for short texts or sentences.
 
         Parameters
         ----------
