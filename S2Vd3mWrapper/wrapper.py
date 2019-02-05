@@ -125,12 +125,12 @@ class d3m_s2v(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
             s2v_df = d3m_DataFrame(df_output)
 
             for column_index in range(s2v_df.shape[1]):
-                col_dict = dict(s2v_df.metadata.query((mbase.ALL_ELEMENTS, column_index)))
+                col_dict = dict(s2v_df.metadata.query((metadata_base.ALL_ELEMENTS, column_index)))
                 col_dict['structural_type'] = type(1.0)
-                col_dict['name'] = str(out_df.shape[1] + column_index)
+                col_dict['name'] = 'vector_' + str(column_index)
                 col_dict['semantic_types'] = ('http://schema.org/Float', 'https://metadata.datadrivendiscovery.org/types/Attribute')
-                
-                s2v_df.metadata = s2v_df.metadata.update((mbase.ALL_ELEMENTS, column_index), col_dict)
+
+                s2v_df.metadata = s2v_df.metadata.update((metadata_base.ALL_ELEMENTS, column_index), col_dict)
 
             return CallResult(s2v_df)
         
