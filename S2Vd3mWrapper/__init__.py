@@ -1,7 +1,7 @@
-from nk_sent2vec_wrapper.wrapper import nk_s2v
+from S2Vd3mWrapper.wrapper import d3m_s2v
 
-__version__ = '1.0.0'
+__version__ = '1.1.0'
 
 __all__ = [
-    "nk_s2v"
+    "d3m_s2v"
 ]
