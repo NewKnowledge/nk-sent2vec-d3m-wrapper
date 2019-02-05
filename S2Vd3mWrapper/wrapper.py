@@ -119,11 +119,21 @@ class d3m_s2v(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
             frame = frame.ix[:,0].tolist()
             EmbedSentences = vectorizer.embed_sentences(sentences=frame)
             # print(EmbedSentences)
-            index = ['Sentence'+str(i) for i in range(1, len(EmbedSentences)+1)]
+            index = [str(i) for i in range(1, len(EmbedSentences)+1)]
             df_output = pd.DataFrame(EmbedSentences, index=index)
+            df_output.index.name = 'd3mIndex'
             s2v_df = d3m_DataFrame(df_output)
-            
+
+            for column_index in range(s2v_df.shape[1]):
+                col_dict = dict(s2v_df.metadata.query((mbase.ALL_ELEMENTS, column_index)))
+                col_dict['structural_type'] = type(1.0)
+                col_dict['name'] = str(out_df.shape[1] + column_index)
+                col_dict['semantic_types'] = ('http://schema.org/Float', 'https://metadata.datadrivendiscovery.org/types/Attribute')
+                
+                s2v_df.metadata = s2v_df.metadata.update((mbase.ALL_ELEMENTS, column_index), col_dict)
+
             return CallResult(s2v_df)
+        
         except:
             # Should probably do some more sophisticated error logging here
             return "Failed document embedding"
