@@ -129,7 +129,7 @@ class d3m_s2v(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     
 if __name__ == '__main__':
     volumes = {} # d3m large primitive architecture dictionary of large files
-    volumes["d3m_sent2vec_model"]='/home/twitter_bigrams.bin'
+    volumes["d3m_sent2vec_model"]='/home/torontobooks_unigrams.bin'
     docs = ['this is a test', 'this is a trap']
     frame = pd.DataFrame(docs, columns=['sentences'])
     df = d3m_DataFrame(frame)  
