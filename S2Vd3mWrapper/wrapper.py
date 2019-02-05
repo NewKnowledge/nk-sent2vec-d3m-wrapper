@@ -121,8 +121,9 @@ class d3m_s2v(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
             # print(EmbedSentences)
             index = ['Sentence'+str(i) for i in range(1, len(EmbedSentences)+1)]
             df_output = pd.DataFrame(EmbedSentences, index=index)
+            s2v_df = d3m_DataFrame(df_output)
             
-            return df_output
+            return CallResult(s2v_df)
         except:
             # Should probably do some more sophisticated error logging here
             return "Failed document embedding"
@@ -135,4 +136,4 @@ if __name__ == '__main__':
     df = d3m_DataFrame(frame)  
     client = d3m_s2v(hyperparams={}, volumes=volumes)
     result = client.produce(inputs = df)
-    print(result)
+    print(result.value)
