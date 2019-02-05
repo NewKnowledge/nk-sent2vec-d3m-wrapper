@@ -9,6 +9,7 @@ import sys
 
 from d3m_sent2vec import Sent2Vec
 
+from d3m import container, utils
 from d3m.primitive_interfaces.transformer import TransformerPrimitiveBase
 from d3m.primitive_interfaces.base import CallResult
 
