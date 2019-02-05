@@ -14,7 +14,7 @@ from d3m.primitive_interfaces.base import CallResult
 
 from d3m.container import DataFrame as d3m_DataFrame
 from d3m.metadata import hyperparams, base as metadata_base, params
-from common_primitives import dataset_to_dataframe as DatasetToDataFrame
+# from common_primitives import dataset_to_dataframe as DatasetToDataFrame
 
 __author__ = 'Distil'
 __version__ = '1.1.0'
