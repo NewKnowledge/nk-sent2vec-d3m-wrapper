@@ -2,31 +2,27 @@ import os.path
 import numpy as np
 import pandas as pd
 import pickle
-# import requests
-# import ast
 import typing
 from json import JSONDecoder
 from typing import List
 import sys
 
-from nk_sent2vec import Sent2Vec
-
-from d3m.primitive_interfaces.base import PrimitiveBase, CallResult
+from d3m_sent2vec import Sent2Vec
 
 from d3m import container, utils
+from d3m.primitive_interfaces.transformer import TransformerPrimitiveBase
+from d3m.primitive_interfaces.base import CallResult
+
+from d3m.container import DataFrame as d3m_DataFrame
 from d3m.metadata import hyperparams, base as metadata_base, params
+# from common_primitives import dataset_to_dataframe as DatasetToDataFrame
 
 __author__ = 'Distil'
-__version__ = '1.0.0'
-__contact__ = 'mailto:numa@newknowledge.io'
+__version__ = '1.1.0'
+__contact__ = 'mailto:nklabs@newknowledge.com'
 
 Inputs = container.pandas.DataFrame
 Outputs = container.pandas.DataFrame
-
-
-class Params(params.Params):
-    pass
-
 
 class Hyperparams(hyperparams.Hyperparams):
     target_columns = hyperparams.Set(
@@ -39,7 +35,19 @@ class Hyperparams(hyperparams.Hyperparams):
     )
 
 
-class nk_s2v(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
+class d3m_s2v(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
+    """
+        Produce numerical representations (features) for short texts or sentences.
+
+        Parameters
+        ----------
+        inputs : Input pandas dataframe
+
+        Returns
+        -------
+        Outputs
+            The output is a pandas dataframe
+        """
     metadata = metadata_base.PrimitiveMetadata({
         # Simply an UUID generated once and fixed forever. Generated using "uuid.uuid4()".
         'id': "cf450079-9333-4a3f-aed4-b77a4e8c7be7",
@@ -52,7 +60,7 @@ class nk_s2v(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
             'contact': __contact__,
             'uris': [
                 # Unstructured URIs.
-                "https://github.com/NewKnowledge/nk-sent2vec-d3m-wrapper",
+                "https://github.com/NewKnowledge/d3m_sent2vec",
             ],
         },
         # A list of dependencies in order. These can be Python packages, system packages, or Docker images.
@@ -62,20 +70,20 @@ class nk_s2v(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
         'installation': [
             {
                 'type': metadata_base.PrimitiveInstallationType.PIP,  
-                'package_uri': 'git+https://github.com/NewKnowledge/nk-sent2vec-d3m-wrapper.git@{git_commit}#egg=nk_sent2vec_wrapper'.format(
+                'package_uri': 'git+https://github.com/NewKnowledge/sent2vec-d3m-wrapper.git@{git_commit}#egg=S2Vd3mWrapper'.format(
                     git_commit=utils.current_git_commit(os.path.dirname(__file__)),
                 ),
             },
             
             {
                 "type": "FILE",
-                "key": "nk_sent2vec_model",
+                "key": "d3m_sent2vec_model",
                 "file_uri": "http://public.datadrivendiscovery.org/twitter_bigrams.bin",
                 "file_digest":"9e8ccfea2aaa4435ca61b05b11b60e1a096648d56fff76df984709339f423dd6"
         },
         ],
         # The same path the primitive is registered with entry points in setup.py.
-        'python_path': 'd3m.primitives.feature_extraction.nk_sent2vec.Nk_s2v',
+        'python_path': 'd3m.primitives.feature_extraction.nk_sent2vec.D3m_s2v',
         # Choose these from a controlled vocabulary in the schema. If anything is missing which would
         # best describe the primitive, make a merge request.
         'algorithm_types': [
@@ -88,24 +96,11 @@ class nk_s2v(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
         super().__init__(hyperparams=hyperparams, random_seed=random_seed, volumes=volumes)
 
         self._decoder = JSONDecoder()
-        self._params = {}
         self.volumes = volumes
-
-    def fit(self) -> None:
-        pass
-
-    def get_params(self) -> Params:
-        return self._params
-
-    def set_params(self, *, params: Params) -> None:
-        self.params = params
-
-    def set_training_data(self, *, inputs: Inputs, outputs: Outputs) -> None:
-        pass
 
     def produce(self, *, inputs: Inputs, timeout: float = None, iterations: int = None) -> CallResult[Outputs]:
         """
-        Produce primitive's best guess for the structural type of each input column.
+        Produce numerical representations (features) for short texts or sentences.
 
         Parameters
         ----------
@@ -120,25 +115,35 @@ class nk_s2v(PrimitiveBase[Inputs, Outputs, Params, Hyperparams]):
         frame = inputs
       
         try:
-            vectorizer = Sent2Vec(path=self.volumes["nk_sent2vec_model"])
+            vectorizer = Sent2Vec(path=self.volumes["d3m_sent2vec_model"])
             frame = frame.ix[:,0].tolist()
             EmbedSentences = vectorizer.embed_sentences(sentences=frame)
             # print(EmbedSentences)
-            index = ['Sentence'+str(i) for i in range(1, len(EmbedSentences)+1)]
+            index = [str(i) for i in range(1, len(EmbedSentences)+1)]
             df_output = pd.DataFrame(EmbedSentences, index=index)
-            
-            return df_output
+            df_output.index.name = 'd3mIndex'
+            s2v_df = d3m_DataFrame(df_output)
+
+            for column_index in range(s2v_df.shape[1]):
+                col_dict = dict(s2v_df.metadata.query((metadata_base.ALL_ELEMENTS, column_index)))
+                col_dict['structural_type'] = type(1.0)
+                col_dict['name'] = 'vector_' + str(column_index)
+                col_dict['semantic_types'] = ('http://schema.org/Float', 'https://metadata.datadrivendiscovery.org/types/Attribute')
+
+                s2v_df.metadata = s2v_df.metadata.update((metadata_base.ALL_ELEMENTS, column_index), col_dict)
+
+            return CallResult(s2v_df)
+        
         except:
             # Should probably do some more sophisticated error logging here
             return "Failed document embedding"
     
 if __name__ == '__main__':
     volumes = {} # d3m large primitive architecture dictionary of large files
-    volumes["nk_sent2vec_model"]='/home/twitter_bigrams.bin'
-    client = nk_s2v(hyperparams={}, volumes=volumes)
-    # make sure to read dataframe as string!
-    # frame = pd.read_csv("https://s3.amazonaws.com/d3m-data/merged_o_data/o_4550_merged.csv",dtype='str')
+    volumes["d3m_sent2vec_model"]='/home/torontobooks_unigrams.bin'
     docs = ['this is a test', 'this is a trap']
     frame = pd.DataFrame(docs, columns=['sentences'])
-    result = client.produce(inputs = frame)
-    print(result)
+    df = d3m_DataFrame(frame)  
+    client = d3m_s2v(hyperparams={}, volumes=volumes)
+    result = client.produce(inputs = df)
+    print(result.value)
