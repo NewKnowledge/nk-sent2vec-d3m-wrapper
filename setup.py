@@ -18,7 +18,7 @@ setup(
     ], 
     entry_points={
         'd3m.primitives': [
-            'feature_extraction.d3m_sent2vec.D3m_s2v = S2Vd3mWrapper:d3m_s2v'
+            'feature_extraction.nk_sent2vec.D3m_s2v = S2Vd3mWrapper:d3m_s2v'
         ],
     },
 )
