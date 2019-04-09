@@ -6,7 +6,7 @@ The base libary for this wrapper can be found at [d3m_sent2vec](https://github.c
 
 ## Install
 
-pip3 install -e git+https://github.com/NewKnowledge/sent2vec-d3m-wrapper.git#egg=S2Vd3mWrapper --process-dependency-links
+`pip3 install -e git+https://github.com/NewKnowledge/sent2vec-d3m-wrapper.git#egg=S2Vd3mWrapper`
 
 ## Input
 
