@@ -91,7 +91,7 @@ class Sent2Vec(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
             "python_path": "feature_extraction.vectorization.sent2vec",
             # Choose these from a controlled vocabulary in the schema. If anything is missing which would
             # best describe the primitive, make a merge request.
-            "algorithm_types": [metadata_base.PrimitiveAlgorithmType.VECTORIZATION],
+            "algorithm_types": metadata_base.PrimitiveAlgorithmType.VECTORIZATION,
             "primitive_family": metadata_base.PrimitiveFamily.FEATURE_EXTRACTION,
         }
     )
