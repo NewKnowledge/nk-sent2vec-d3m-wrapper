@@ -14,8 +14,9 @@ setup(
         "pandas",
         "numpy",
         "pytest",
-        "nk_sent2vec @ git+https://github.com/NewKnowledge/nk-sent2vec@master#egg=nk_sent2vec",
+        "nk_sent2vec @ git+https://github.com/NewKnowledge/nk-sent2vec@8976b22e6c86843626d81a2e0d08cb84d1e041ca#egg=nk_sent2vec",
     ],
+    # TODO point to version above
     entry_points={
         "d3m.primitives": [
             "feature_extraction.vectorization.sent2vec = sent2vec:Sent2Vec"
