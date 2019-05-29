@@ -1,11 +1,11 @@
 from distutils.core import setup
 
 setup(
-    name="sent2vec",
+    name="d3m_sent2vec",
     version="1.3.0",
     description="wrapper for interacting with a dockerized sent2vec text embedding primitive",
     author="New Knowledge",
-    packages=["sent2vec"],
+    packages=["d3m_sent2vec"],
     include_package_data=True,
     install_requires=[
         # "pandas>=0.22.0, <=0.23.4",
@@ -19,7 +19,7 @@ setup(
     # TODO point to version above
     entry_points={
         "d3m.primitives": [
-            "feature_extraction.nk_sent2vec.Sent2Vec = sent2vec:Sent2Vec"
+            "feature_extraction.nk_sent2vec.Sent2Vec = d3m_sent2vec:Sent2Vec"
         ]
     },
 )

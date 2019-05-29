@@ -58,7 +58,7 @@ class Sent2Vec(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
             # Simply an UUID generated once and fixed forever. Generated using "uuid.uuid4()".
             "id": "cf450079-9333-4a3f-aed4-b77a4e8c7be7",
             "version": __version__,
-            "name": "sent2vec",
+            "name": "d3m_sent2vec",
             # Keywords do not have a controlled vocabulary. Authors can put here whatever they find suitable.
             "keywords": ["Sent2Vec", "Embedding", "NLP", "Natural Language Processing"],
             "source": {
@@ -66,7 +66,7 @@ class Sent2Vec(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
                 "contact": __contact__,
                 "uris": [
                     # Unstructured URIs.
-                    "https://github.com/NewKnowledge/nk-sent2vec"
+                    "https://github.com/NewKnowledge/nk-sent2vec-d3m-wrapper"
                 ],
             },
             # A list of dependencies in order. These can be Python packages, system packages, or Docker images.
@@ -76,7 +76,7 @@ class Sent2Vec(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
             "installation": [
                 {
                     "type": metadata_base.PrimitiveInstallationType.PIP,
-                    "package_uri": "git+https://github.com/NewKnowledge/nk-sent2vec-d3m-wrapper.git@{git_commit}#egg=sent2vec".format(
+                    "package_uri": "git+https://github.com/NewKnowledge/nk-sent2vec-d3m-wrapper.git@{git_commit}#egg=d3m_sent2vec".format(
                         git_commit=utils.current_git_commit(os.path.dirname(__file__))
                     ),
                 },
@@ -91,7 +91,7 @@ class Sent2Vec(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
             "python_path": "feature_extraction.nk_sent2vec.Sent2Vec",
             # Choose these from a controlled vocabulary in the schema. If anything is missing which would
             # best describe the primitive, make a merge request.
-            "algorithm_types": metadata_base.PrimitiveAlgorithmType.VECTORIZATION,
+            "algorithm_types": [metadata_base.PrimitiveAlgorithmType.VECTORIZATION],
             "primitive_family": metadata_base.PrimitiveFamily.FEATURE_EXTRACTION,
         }
     )
