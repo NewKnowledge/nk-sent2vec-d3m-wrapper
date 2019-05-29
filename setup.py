@@ -19,7 +19,7 @@ setup(
     # TODO point to version above
     entry_points={
         "d3m.primitives": [
-            "feature_extraction.vectorization.sent2vec = sent2vec:Sent2Vec"
+            "feature_extraction.vectorization.nk_sent2vec = sent2vec:Sent2Vec"
         ]
     },
 )

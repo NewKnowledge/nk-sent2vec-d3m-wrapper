@@ -88,7 +88,7 @@ class Sent2Vec(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
                 },
             ],
             # The same path the primitive is registered with entry points in setup.py.
-            "python_path": "feature_extraction.vectorization.sent2vec",
+            "python_path": "feature_extraction.vectorization.nk_sent2vec",
             # Choose these from a controlled vocabulary in the schema. If anything is missing which would
             # best describe the primitive, make a merge request.
             "algorithm_types": metadata_base.PrimitiveAlgorithmType.VECTORIZATION,
@@ -129,7 +129,7 @@ class Sent2Vec(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
         frame = inputs
 
         try:
-            vectorizer = Sent2Vec(path=self.volumes["nk_sent2vec_model"])
+            vectorizer = Sent2Vec(path=self.volumes["sent2vec_model"])
             frame = frame.ix[:, 0].tolist()
             EmbedSentences = vectorizer.embed_sentences(sentences=frame)
             # print(EmbedSentences)
@@ -162,7 +162,7 @@ class Sent2Vec(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
 
 # if __name__ == "__main__":
 #     volumes = {}  # d3m large primitive architecture dictionary of large files
-#     volumes["nk_sent2vec_model"] = "/home/torontobooks_unigrams.bin"
+#     volumes["sent2vec_model"] = "/home/torontobooks_unigrams.bin"
 #     docs = ["this is a test", "this is a trap"]
 #     frame = pd.DataFrame(docs, columns=["sentences"])
 #     df = d3m_DataFrame(frame)
