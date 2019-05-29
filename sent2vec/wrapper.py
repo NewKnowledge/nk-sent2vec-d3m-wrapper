@@ -88,7 +88,7 @@ class Sent2Vec(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
                 },
             ],
             # The same path the primitive is registered with entry points in setup.py.
-            "python_path": "feature_extraction.vectorization.nk_sent2vec",
+            "python_path": "feature_extraction.nk_sent2vec.sent2vec",
             # Choose these from a controlled vocabulary in the schema. If anything is missing which would
             # best describe the primitive, make a merge request.
             "algorithm_types": metadata_base.PrimitiveAlgorithmType.VECTORIZATION,
