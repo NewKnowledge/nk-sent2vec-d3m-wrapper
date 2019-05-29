@@ -1,8 +1,8 @@
 # D3M Sent2Vec Wrapper
 
-D3M wrapper for d3m_sent2vec. This library delivers numerical representations (features) for short texts or sentences. 
+D3M wrapper for nk_sent2vec. This library delivers numerical representations (features) for short texts or sentences. 
 
-The base libary for this wrapper can be found at [d3m_sent2vec](https://github.com/NewKnowledge/d3m_sent2vec).
+The base libary for this wrapper can be found at [nk_sent2vec](https://github.com/NewKnowledge/nk-sent2vec).
 
 ## Install
 
