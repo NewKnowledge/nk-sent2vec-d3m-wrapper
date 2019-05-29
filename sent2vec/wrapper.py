@@ -7,7 +7,7 @@ from json import JSONDecoder
 from typing import List
 import sys
 
-from nk_sent2vec import Sent2Vec
+from nk_sent2vec import Sent2Vec as _Sent2Vec
 
 from d3m import container, utils
 from d3m.primitive_interfaces.transformer import TransformerPrimitiveBase
@@ -88,7 +88,7 @@ class Sent2Vec(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
                 },
             ],
             # The same path the primitive is registered with entry points in setup.py.
-            "python_path": "feature_extraction.nk_sent2vec.sent2vec",
+            "python_path": "feature_extraction.nk_sent2vec.Sent2Vec",
             # Choose these from a controlled vocabulary in the schema. If anything is missing which would
             # best describe the primitive, make a merge request.
             "algorithm_types": metadata_base.PrimitiveAlgorithmType.VECTORIZATION,
@@ -129,7 +129,7 @@ class Sent2Vec(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
         frame = inputs
 
         try:
-            vectorizer = Sent2Vec(path=self.volumes["sent2vec_model"])
+            vectorizer = _Sent2Vec(path=self.volumes["sent2vec_model"])
             frame = frame.ix[:, 0].tolist()
             EmbedSentences = vectorizer.embed_sentences(sentences=frame)
             # print(EmbedSentences)
