@@ -88,7 +88,7 @@ class Sent2Vec(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
                 },
             ],
             # The same path the primitive is registered with entry points in setup.py.
-            "python_path": "feature_extraction.nk_sent2vec.Sent2Vec",
+            "python_path": "d3m.primitives.feature_extraction.nk_sent2vec.Sent2Vec",
             # Choose these from a controlled vocabulary in the schema. If anything is missing which would
             # best describe the primitive, make a merge request.
             "algorithm_types": [metadata_base.PrimitiveAlgorithmType.VECTORIZATION],
@@ -132,7 +132,6 @@ class Sent2Vec(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
             vectorizer = _Sent2Vec(path=self.volumes["sent2vec_model"])
             frame = frame.ix[:, 0].tolist()
             EmbedSentences = vectorizer.embed_sentences(sentences=frame)
-            # print(EmbedSentences)
             index = [str(i) for i in range(1, len(EmbedSentences) + 1)]
             df_output = pd.DataFrame(EmbedSentences, index=index)
             df_output.index.name = "d3mIndex"

@@ -14,7 +14,7 @@ setup(
         "pandas",
         "numpy",
         "pytest",
-        "nk_sent2vec @ git+https://github.com/NewKnowledge/nk-sent2vec@8976b22e6c86843626d81a2e0d08cb84d1e041ca#egg=nk_sent2vec",
+        "nk_sent2vec @ git+https://github.com/NewKnowledge/nk-sent2vec@85cdd7538c41ea8edf49d15ab749d258656eff00#egg=nk_sent2vec",
     ],
     # TODO point to version above
     entry_points={
