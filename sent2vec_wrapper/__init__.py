@@ -1,4 +1,4 @@
-from d3m_sent2vec.wrapper import Sent2Vec
+from sent2vec_wrapper.wrapper import Sent2Vec
 
 __version__ = "1.3.0"
 

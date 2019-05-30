@@ -58,7 +58,7 @@ class Sent2Vec(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
             # Simply an UUID generated once and fixed forever. Generated using "uuid.uuid4()".
             "id": "cf450079-9333-4a3f-aed4-b77a4e8c7be7",
             "version": __version__,
-            "name": "d3m_sent2vec",
+            "name": "sent2vec_wrapper",
             # Keywords do not have a controlled vocabulary. Authors can put here whatever they find suitable.
             "keywords": ["Sent2Vec", "Embedding", "NLP", "Natural Language Processing"],
             "source": {
@@ -76,7 +76,7 @@ class Sent2Vec(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
             "installation": [
                 {
                     "type": metadata_base.PrimitiveInstallationType.PIP,
-                    "package_uri": "git+https://github.com/NewKnowledge/nk-sent2vec-d3m-wrapper.git@{git_commit}#egg=d3m_sent2vec".format(
+                    "package_uri": "git+https://github.com/NewKnowledge/nk-sent2vec-d3m-wrapper.git@{git_commit}#egg=sent2vec_wrapper".format(
                         git_commit=utils.current_git_commit(os.path.dirname(__file__))
                     ),
                 },
