@@ -8,9 +8,6 @@ setup(
     packages=["sent2vec_wrapper"],
     include_package_data=True,
     install_requires=[
-        # "pandas>=0.22.0, <=0.23.4",
-        # "numpy>=1.14.1, <=1.15.4",
-        # "pytest>=1.3.7",
         "pandas",
         "numpy",
         "pytest",
