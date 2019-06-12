@@ -125,7 +125,7 @@ class Sent2Vec(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
         Outputs
             The output is a pandas dataframe
         """
-
+        print(inputs.head(), file=sys.__stdout__)
         frame = inputs
 
         try:
