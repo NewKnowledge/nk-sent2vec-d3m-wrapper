@@ -22,7 +22,7 @@ __author__ = "Distil"
 __version__ = "1.3.0"
 __contact__ = "mailto:nklabs@newknowledge.com"
 
-Inputs = container.pandas.DataFrame
+Inputs = container.dataset.Dataset
 Outputs = container.pandas.DataFrame
 
 
@@ -125,8 +125,10 @@ class Sent2Vec(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
         Outputs
             The output is a pandas dataframe
         """
-        print(inputs.head(), file=sys.__stdout__)
-        frame = inputs
+        learning_resource_id, learning_df = utils.get_tabular_resource(inputs, 'learningData')
+        text_resource_id, text_df = utils.get_tabular_resource(inputs, '0')
+        print(learning_df.head(), file = sys.__stdout__)
+        print(text_df.head(), file = sys.__stdout__)
 
         try:
             vectorizer = _Sent2Vec(path=self.volumes["sent2vec_model"])

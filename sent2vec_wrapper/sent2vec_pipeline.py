@@ -7,41 +7,41 @@ import sys
 pipeline_description = Pipeline(context=Context.TESTING)
 pipeline_description.add_input(name="inputs")
 
-# Step 0: Denormalize primitive
-step_0 = PrimitiveStep(
-    primitive=index.get_primitive(
-        "d3m.primitives.data_transformation.denormalize.Common"
-    )
-)
-step_0.add_argument(
-    name="inputs", argument_type=ArgumentType.CONTAINER, data_reference="inputs.0"
-)
-step_0.add_output("produce")
-pipeline_description.add_step(step_0)
+# # Step 0: Denormalize primitive
+# step_0 = PrimitiveStep(
+#     primitive=index.get_primitive(
+#         "d3m.primitives.data_transformation.denormalize.Common"
+#     )
+# )
+# step_0.add_argument(
+#     name="inputs", argument_type=ArgumentType.CONTAINER, data_reference="inputs.0"
+# )
+# step_0.add_output("produce")
+# pipeline_description.add_step(step_0)
 
-# Step 1: dataset_to_dataframe
-step_1 = PrimitiveStep(
-    primitive=index.get_primitive(
-        "d3m.primitives.data_transformation.dataset_to_dataframe.Common"
-    )
-)
-step_1.add_argument(
-    name="inputs",
-    argument_type=ArgumentType.CONTAINER,
-    data_reference="steps.0.produce",
-)
-step_1.add_hyperparameter(
-    name="dataframe_resource", argument_type=ArgumentType.VALUE, data="learningData"
-)
-step_1.add_output("produce")
-pipeline_description.add_step(step_1)
+# # Step 1: dataset_to_dataframe
+# step_1 = PrimitiveStep(
+#     primitive=index.get_primitive(
+#         "d3m.primitives.data_transformation.dataset_to_dataframe.Common"
+#     )
+# )
+# step_1.add_argument(
+#     name="inputs",
+#     argument_type=ArgumentType.CONTAINER,
+#     data_reference="steps.0.produce",
+# )
+# step_1.add_hyperparameter(
+#     name="dataframe_resource", argument_type=ArgumentType.VALUE, data="learningData"
+# )
+# step_1.add_output("produce")
+# pipeline_description.add_step(step_1)
 
 # Step 2: sent2vec_wrapper primitive
 step_2 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.feature_extraction.nk_sent2vec.Sent2Vec'))
 step_2.add_argument(
     name="inputs",
     argument_type=ArgumentType.CONTAINER,
-    data_reference="steps.1.produce",
+    data_reference="inputs.0",
 )
 step_2.add_hyperparameter(
     name="target_columns", argument_type=ArgumentType.VALUE, data=["filename"]
