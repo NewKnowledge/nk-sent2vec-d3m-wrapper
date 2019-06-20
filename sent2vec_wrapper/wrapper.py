@@ -16,8 +16,6 @@ from d3m.primitive_interfaces.base import CallResult
 from d3m.container import DataFrame as d3m_DataFrame
 from d3m.metadata import hyperparams, base as metadata_base, params
 
-# from common_primitives import dataset_to_dataframe as DatasetToDataFrame
-
 __author__ = "Distil"
 __version__ = "1.3.0"
 __contact__ = "mailto:nklabs@newknowledge.com"
@@ -125,10 +123,9 @@ class Sent2Vec(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
         Outputs
             The output is a pandas dataframe
         """
-        learning_resource_id, learning_df = utils.get_tabular_resource(inputs, 'learningData')
-        text_resource_id, text_df = utils.get_tabular_resource(inputs, '0')
-        print(learning_df.head(), file = sys.__stdout__)
-        print(text_df.head(), file = sys.__stdout__)
+        print(inputs.head(), file = sys.__stdout__)
+        print(inputs.metadata.query((metadata_base.ALL_ELEMENTS,)), file = sys.__stdout__)
+        frame = inputs
 
         try:
             vectorizer = _Sent2Vec(path=self.volumes["sent2vec_model"])
