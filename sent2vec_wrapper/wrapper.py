@@ -25,17 +25,7 @@ Outputs = container.pandas.DataFrame
 
 
 class Hyperparams(hyperparams.Hyperparams):
-    target_columns = hyperparams.Set(
-        elements=hyperparams.Hyperparameter[str](""),
-        default=(),
-        max_size=sys.maxsize,
-        min_size=0,
-        semantic_types=[
-            "https://metadata.datadrivendiscovery.org/types/ControlParameter"
-        ],
-        description="names of columns with strings to embed",
-    )
-
+    pass
 
 class Sent2Vec(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
     """
@@ -105,7 +95,6 @@ class Sent2Vec(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
             hyperparams=hyperparams, random_seed=random_seed, volumes=volumes
         )
 
-        self._decoder = JSONDecoder()
         self.volumes = volumes
 
     def produce(
@@ -123,40 +112,59 @@ class Sent2Vec(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
         Outputs
             The output is a pandas dataframe
         """
-        print(inputs.head(), file = sys.__stdout__)
-        print(inputs.metadata.query((metadata_base.ALL_ELEMENTS,)), file = sys.__stdout__)
-        frame = inputs
 
+        # extract sentences from stored in nested media files
+        text_columns = inputs.metadata.get_columns_with_semantic_type('https://metadata.datadrivendiscovery.org/types/FileName')
+        base_paths = [inputs.metadata.query((metadata_base.ALL_ELEMENTS, t))['location_base_uris'][0] for t in text_columns]
+        txt_paths = [[os.path.join(base_path, filename) for filename in inputs.iloc[:,col] for base_path, col in zip(base_paths, text_columns)]
+        txt = [[open(path, 'r').read().replace('\n', '') for path in path_list] for path_list in txt_paths]
+        txt_df = pd.DataFrame(np.array(txt).T, index = len(np.array(txt).T))
+
+        # concatenate with text columns that aren't stored in nested files
+        local_text_columns = inputs.metadata.get_columns_with_semantic_type('http://schema.org/Text')
+        local_text_columns = [col if col not in text_columns for col in local_text_columns]
+        frame = pd.concat((txt_df, inputs[local_text_columns]), axis=1)
+
+        print(frame.head(), file = sys.__stdout__)
+        print(frame.shape, file = sys.__stdout__)
         try:
             vectorizer = _Sent2Vec(path=self.volumes["sent2vec_model"])
-            frame = frame.ix[:, 0].tolist()
-            EmbedSentences = vectorizer.embed_sentences(sentences=frame)
-            index = [str(i) for i in range(1, len(EmbedSentences) + 1)]
-            df_output = pd.DataFrame(EmbedSentences, index=index)
-            df_output.index.name = "d3mIndex"
-            s2v_df = d3m_DataFrame(df_output)
-
-            for column_index in range(s2v_df.shape[1]):
-                col_dict = dict(
-                    s2v_df.metadata.query((metadata_base.ALL_ELEMENTS, column_index))
-                )
-                col_dict["structural_type"] = type(1.0)
-                col_dict["name"] = "vector_" + str(column_index)
-                col_dict["semantic_types"] = (
-                    "http://schema.org/Float",
-                    "https://metadata.datadrivendiscovery.org/types/Attribute",
-                )
-
-                s2v_df.metadata = s2v_df.metadata.update(
-                    (metadata_base.ALL_ELEMENTS, column_index), col_dict
-                )
-
-            return CallResult(s2v_df)
-
+            print('loaded sent2vec model')
+            output_vectors = []
+            for col in range(frame.shape[1]):
+                text = frame.iloc[:, col].tolist()
+                embedded_sentences = vectorizer.embed_sentences(sentences=text)
+                output_vectors.append(embedded_sentences)
+            embedded_df = pd.DataFrame(output_vectors, index=range(len(output_vectors)))
         except:
             # Should probably do some more sophisticated error logging here
             return "Failed document embedding"
+        
+        print('successfully vectorized text\n')
+        # delete columns with path names of nested media files
+        outputs = inputs.remove_columns(text_columns)
 
+        # create df with vectorized columns and append to input df
+        embedded_df = d3m_DataFrame(embedded_df)
+        for col in range(embedded_df.shape[1]):
+            col_dict = dict(embedded_df.metadata.query((metadata_base.ALL_ELEMENTS, col)))
+            col_dict['structural_type'] = type(1.0)
+            col_dict['name'] = "vector_" + str(col)
+            col_dict["semantic_types"] = (
+                    "http://schema.org/Float",
+                    "https://metadata.datadrivendiscovery.org/types/Attribute",
+                )
+            embedded_df.metadata = embedded_df.metadata.update(
+                    (metadata_base.ALL_ELEMENTS, col), col_dict
+                )
+        df_dict = dict(embedded_df.metadata.query((metadata_base.ALL_ELEMENTS, )))
+        df_dict_1 = dict(embedded_df.metadata.query((metadata_base.ALL_ELEMENTS, ))) 
+        df_dict['dimension'] = df_dict_1
+        df_dict_1['name'] = 'columns'
+        df_dict_1['semantic_types'] = ('https://metadata.datadrivendiscovery.org/types/TabularColumn',)
+        df_dict_1['length'] = embedded_df.shape[1]
+
+        return CallResult(outpus.append_columns(embedded_df, use_right_metdata=False))
 
 # if __name__ == "__main__":
 #     volumes = {}  # d3m large primitive architecture dictionary of large files

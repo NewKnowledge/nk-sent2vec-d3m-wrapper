@@ -49,10 +49,34 @@ step_2.add_hyperparameter(
 step_2.add_output("produce")
 pipeline_description.add_step(step_2)
 
-# Final Output
-pipeline_description.add_output(
-    name="output predictions", data_reference="steps.2.produce"
-)
+# Step 3: column_parser
+step_3 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_transformation.column_parser.DataFrameCommon'))
+step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
+step_3.add_output('produce')
+pipeline_description.add_step(step_3)
+
+# # Step 4: imputer
+# step_3 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_cleaning.imputer.SKlearn'))
+# step_3.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.2.produce')
+# step_3.add_output('produce')
+# step_3.add_hyperparameter(name='return_result', argument_type=ArgumentType.VALUE,data='replace')
+# step_3.add_hyperparameter(name='use_semantic_types', argument_type=ArgumentType.VALUE,data=True)
+# pipeline_description.add_step(step_3)
+
+# Step 4: Gradient boosting classifier
+step_4 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.classification.xgboost_gbtree.DataFrameCommon'))
+step_4.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.3.produce')
+step_4.add_argument(name='outputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.3.produce')
+step_4.add_output('produce')
+step_4.add_hyperparameter(name='return_result', argument_type=ArgumentType.VALUE,data='replace')
+pipeline_description.add_step(step_4)
+
+# Step 5: construct output
+step_5 = PrimitiveStep(primitive=index.get_primitive('d3m.primitives.data_transformation.construct_predictions.DataFrameCommon'))
+step_5.add_argument(name='inputs', argument_type=ArgumentType.CONTAINER, data_reference='steps.4.produce')
+step_5.add_argument(name='reference', argument_type=ArgumentType.CONTAINER, data_reference='steps.1.produce')
+step_5.add_output('produce')
+pipeline_description.add_step(step_5)
 
 # Output json pipeline
 blob = pipeline_description.to_json()
