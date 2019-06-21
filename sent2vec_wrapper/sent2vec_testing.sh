@@ -11,7 +11,7 @@ echo "DATASET, F1 SCORE, EXECUTION TIME" >> scores.txt
 for i in "${Datasets[@]}"; do
 
   # generate and save pipeline + metafile
-  python3 "sent2vec_pipeline.py" $i
+  python3 "../sent2vec_pipeline.py" $i
 
   # test and score pipeline
   start=`date +%s` 
