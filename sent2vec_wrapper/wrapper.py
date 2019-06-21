@@ -141,7 +141,7 @@ class Sent2Vec(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
             # just return inputs with file names deleted if vectorizing fails
             return CallResult(outputs) 
         
-        print('successfully vectorized text\n')
+        print('successfully vectorized text\n', file = sys.__stdout__)
 
         # create df with vectorized columns and append to input df
         embedded_df = d3m_DataFrame(embedded_df)
