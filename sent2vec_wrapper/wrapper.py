@@ -150,7 +150,7 @@ class Sent2Vec(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
             col_dict['structural_type'] = type(1.0)
             col_dict['name'] = "vector_" + str(col)
             col_dict["semantic_types"] = (
-                    'https://metadata.datadrivendiscovery.org/types/FloatVector',
+                    "http://schema.org/Float",
                     "https://metadata.datadrivendiscovery.org/types/Attribute",
                 )
             embedded_df.metadata = embedded_df.metadata.update(
