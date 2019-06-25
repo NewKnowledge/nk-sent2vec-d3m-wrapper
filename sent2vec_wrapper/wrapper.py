@@ -130,7 +130,7 @@ class Sent2Vec(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
 
         try:
             vectorizer = _Sent2Vec(path=self.volumes["sent2vec_model"])
-            print('loaded sent2vec model', file = sys.__stdout__)
+            #print('loaded sent2vec model', file = sys.__stdout__)
             output_vectors = []
             for col in range(frame.shape[1]):
                 text = frame.iloc[:, col].tolist()
@@ -141,7 +141,7 @@ class Sent2Vec(TransformerPrimitiveBase[Inputs, Outputs, Hyperparams]):
             # just return inputs with file names deleted if vectorizing fails
             return CallResult(outputs) 
         
-        print('successfully vectorized text\n', file = sys.__stdout__)
+        #print('successfully vectorized text\n', file = sys.__stdout__)
 
         # create df with vectorized columns and append to input df
         embedded_df = d3m_DataFrame(embedded_df)
